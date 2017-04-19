@@ -408,16 +408,6 @@ def build_model(env, **opt):
 
 
 
-#----------------------------------------------------------------------------
-
-if __name__ == "__main__":
-    pass
-    #maze = np.array(Maze['7x7_4'])
-    #env = TdfMaze(maze)
-    #model = build_model(env)
-    #qtrain(model, env, n_epoch=15000, max_memory=1000, data_size=50, weights_file="")
-    #qtrain(model, env, n_epoch=2000, max_memory=400, data_size=50, weights_file="model.h5")
-
 
 
 

@@ -361,7 +361,20 @@ class Qtraining(object):
         print('files: %s, %s' % (h5file, json_file))
         print("n_epoch: %d, max_mem: %d, data: %d, time: %s" % (self.epoch, self.max_memory, self.data_size, t))
 
-#----------------------------------------------------------------
+#-----------------------------------
+
+def build_model(env, **opt):
+    loss = opt.get('loss', 'mse')
+    a = opt.get('alpha', 0.24)
+    model = Sequential()
+    esize = env.maze.size
+    model.add(Dense(esize, input_shape=(esize,)))
+    model.add(LeakyReLU(alpha=a))
+    model.add(Dense(esize))
+    model.add(LeakyReLU(alpha=a))
+    model.add(Dense(num_actions))
+    model.compile(optimizer='adam', loss='mse')
+    return model
 
 def show_env(env, fname=None):
     plt.grid('on')
@@ -392,22 +405,4 @@ def format_time(seconds):
     else:
         h = seconds / 3600.0
         return "%.2f hours" % (h,)
-
-def build_model(env, **opt):
-    loss = opt.get('loss', 'mse')
-    a = opt.get('alpha', 0.24)
-    model = Sequential()
-    esize = env.maze.size
-    model.add(Dense(esize, input_shape=(esize,)))
-    model.add(LeakyReLU(alpha=a))
-    model.add(Dense(esize))
-    model.add(LeakyReLU(alpha=a))
-    model.add(Dense(num_actions))
-    model.compile(optimizer='adam', loss='mse')
-    return model
-
-
-
-
-
 

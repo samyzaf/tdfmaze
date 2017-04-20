@@ -57,14 +57,14 @@ class TdfMaze(object):
         row, col = agent
         self.maze[row, col] = agent_mark
         self.state = ((row, col), 'start')
-        self.base = np.sqrt(self.maze.size)
+        self.diameter = np.sqrt(self.maze.size)
         self.visited = dict(((r,c),0) for r in range(nrows) for c in range(ncols) if self._maze[r,c] == 1.0)
         self.total_reward = 0
         self.min_reward = -0.5 * self.maze.size
         self.reward = {
             'blocked':  self.min_reward,
             'flag':     1.0/len(self._flags),
-            'invalid': -4.0/self.base,
+            'invalid': -4.0/self.diameter,
             'valid':   -1.0/self.maze.size
         }
 
@@ -294,7 +294,7 @@ class Qtraining(object):
 
         # Train model
         inputs, targets = self.experience.get_data(data_size=self.data_size)
-        epochs = int(self.env.base)
+        epochs = int(self.env.diameter)
         h = self.model.fit(
             inputs,
             targets,

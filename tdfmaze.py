@@ -13,12 +13,16 @@ visited_mark = 0.9
 flag_mark = 0.65
 agent_mark = 0.5
 
-# Actions dictionary
+# Actions
+LEFT = 0
+UP = 1
+RIGHT = 2
+DOWN = 3
 actions_dict = {
-    0: 'left',
-    1: 'up',
-    2: 'right',
-    3: 'down',
+    LEFT:  'left',
+    UP:    'up',
+    RIGHT: 'right',
+    DOWN:  'down',
 }
 
 num_actions = len(actions_dict)
@@ -104,13 +108,13 @@ class TdfMaze(object):
             nmode = 'blocked'
         elif action in valid_actions:
             nmode = 'valid'
-            if action == 0:    # move left
+            if action == LEFT:
                 ncol -= 1
-            elif action == 1:  # move up
+            elif action == UP:
                 nrow -= 1
-            elif action == 2:    # move right
+            elif action == RIGHT:
                 ncol += 1
-            elif action == 3:  # move down
+            elif action == DOWN:
                 nrow += 1
         else:                  # invalid action, no change in agent position
             nmode = 'invalid'
@@ -157,27 +161,27 @@ class TdfMaze(object):
             (row, col), mode = self.state
         else:
             row, col = cell
-        actions = [0, 1, 2, 3]
+        actions = [LEFT, UP, RIGHT, DOWN]
         nrows, ncols = self.maze.shape
         if row == 0:
-            actions.remove(1)
+            actions.remove(UP)
         elif row == nrows-1:
-            actions.remove(3)
+            actions.remove(DOWN)
 
         if col == 0:
-            actions.remove(0)
+            actions.remove(LEFT)
         elif col == ncols-1:
-            actions.remove(2)
+            actions.remove(RIGHT)
 
         if row>0 and self.maze[row-1,col] == 0.0:
-            actions.remove(1)
+            actions.remove(UP)
         if row<nrows-1 and self.maze[row+1,col] == 0.0:
-            actions.remove(3)
+            actions.remove(DOWN)
 
         if col>0 and self.maze[row,col-1] == 0.0:
-            actions.remove(0)
+            actions.remove(LEFT)
         if col<ncols-1 and self.maze[row,col+1] == 0.0:
-            actions.remove(2)
+            actions.remove(RIGHT)
 
         return actions
 
@@ -352,8 +356,8 @@ class Qtraining(object):
         # Save trained model weights and architecture, this will be used by the visualization code
         if not name:
             name = self.name
-        h5file = 'model_%s.h5' % (name,)
-        json_file = 'model_%s.json' % (name,)
+        h5file = '%s.h5' % (name,)
+        json_file = '%s.json' % (name,)
         self.model.save_weights(h5file, overwrite=True)
         with open(json_file, "w") as outfile:
             json.dump(self.model.to_json(), outfile)

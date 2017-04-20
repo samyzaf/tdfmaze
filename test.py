@@ -26,7 +26,7 @@ qt = Qtraining(
 
 qt.train()
 
-qt.save('t1')
+qt.save('model1')
 print("Compute Time:", qt.seconds)
 
 

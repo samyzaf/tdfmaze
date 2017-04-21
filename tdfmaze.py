@@ -30,11 +30,11 @@ num_actions = len(actions_dict)
 class TdfMaze(object):
     """
     Tour De Flags maze object
-    maze: a 2d Numpy array of 0's and 1's
-        1.00 - a free cell
-        0.65 - flag cell
-        0.50 - agent cell
-        0.00 - an occupied cell
+    maze: a 2d Numpy array of floats between 0 to 1:
+        1.00 - a free cell (white)
+        0.65 - flag cell (65% gray)
+        0.50 - agent cell (50% gray)
+        0.00 - an occupied cell (black)
     agent: (row, col) initial agent position (defaults to (0,0))
     flags: list of cells occupied by flags
     """
@@ -185,7 +185,7 @@ class TdfMaze(object):
 
         return actions
 
-#----------------------------------------------------------
+#------------ Experience Class --------------
 
 class Experience(object):
     def __init__(self, model, max_memory=100, discount=0.97):
@@ -227,7 +227,7 @@ class Experience(object):
                 targets[i, action] = reward + self.discount * Q_sa
         return inputs, targets
 
-#------------ Q-training --------------
+#------------ Q-training Class --------------
 
 class Qtraining(object):
     def __init__(self, model, env, **opt):
